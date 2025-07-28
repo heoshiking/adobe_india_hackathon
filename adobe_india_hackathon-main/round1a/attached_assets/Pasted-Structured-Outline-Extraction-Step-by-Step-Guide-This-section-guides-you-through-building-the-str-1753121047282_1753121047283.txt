@@ -1,0 +1,112 @@
+Structured Outline Extraction – Step-by-Step Guide
+This section guides you through building the structured outline extraction system as required in Round 1A of the "Connecting the Dots" Challenge. The objective is to process PDFs, extract the document title and heading hierarchy (H1, H2, H3 with page numbers), and output a valid JSON representation.
+
+Functional Requirements
+Input: PDFs (≤50 pages) placed in /app/input
+
+Output: JSON outline for each PDF in /app/output
+
+Execution: ≤10 seconds per file on CPU-only Docker (AMD64), ≤200MB model size, offline
+
+Extraction:
+
+Title
+
+Headings: H1, H2, H3 (detected with level and page number)
+
+Output Format Example
+json
+{
+  "title": "Understanding AI",
+  "outline": [
+    { "level": "H1", "text": "Introduction", "page": 1 },
+    { "level": "H2", "text": "What is AI?", "page": 2 },
+    { "level": "H3", "text": "History of AI", "page": 3 }
+  ]
+}
+System Architecture Overview
+PDF File Loader
+
+Walks through /app/input and selects all PDFs.
+
+Text and Layout Extraction
+
+For native PDFs: Uses libraries like PyMuPDF (fitz), PDFMiner, or PDFPlumber to extract text and layout information.
+
+For scanned PDFs: Integrates OCR (Tesseract) if necessary.
+
+Title and Heading Detection
+
+Title: Heuristically selected as the most prominent text on the first page (largest font, centered, or bold).
+
+Headings: Use a combination of font size, boldness, and textual patterns (e.g., numbered headings, capitalization) to detect H1, H2, and H3.
+
+Do not rely solely on font size for heading detection; use structure, position, and style.
+
+Hierarchy Assignment
+
+Based on detected heading levels, assign H1, H2, H3.
+
+Track the page number for each heading.
+
+JSON Structuring
+
+Output a JSON file for each PDF in /app/output in the specified format.
+
+Implementation Steps
+1. PDF Parsing and Text Extraction
+Use PyMuPDF, PDFPlumber, or pdfminer.six for parsing:
+
+Extract text blocks, their font sizes, positions, and styles.
+
+For texts that appear visually different or prominent, record their attributes.
+
+2. Title Detection
+Identify the largest, boldest, or most centrally positioned text near the top of the first page as the title.
+
+3. Heading Detection and Classification
+Detect candidate headings on all pages by:
+
+Checking for font size/style differences relative to body text.
+
+Looking for textual markers: numbering (1., 1.1), ALL CAPS, etc.
+
+Assign 'H1', 'H2', 'H3' based on:
+
+Relative font size hierarchy across the document.
+
+Text decoration (bold/italic) and indentation.
+
+Proximity to the left margin (headings are commonly aligned).
+
+4. Page Number Tracking
+Capture the page number for each detected title and heading.
+
+5. JSON Output Generation
+Structure results per the required schema under /app/output.
+
+Pro Tips for Accuracy
+Combine multiple cues for headings: font attributes, text patterns, and position.
+
+Test with documents featuring complex structure (multi-language, varied layouts).
+
+Make your detection logic configurable (thresholds for font size differences, etc.).
+
+Example: Python Package Stack
+PyMuPDF (fitz): Fast, layout-aware, small dependency footprint.
+
+Pandas, json (standard library): For structuring and output.
+
+Tesseract OCR: Only if dealing with image-based PDFs.
+
+Dockerization and Resource Constraints
+Ensure your Docker image stays ≤200MB. Use slim Python base images and minimal dependencies.
+
+All code and models must run offline; no API/web requests are allowed.
+
+Evaluation Criteria
+Heading Detection Accuracy: Structure and correctness of extracted outline (25 points)
+
+Performance: Speed and size efficiency (10 points)
+
+Multilingual Support: Bonus for handling multiple languages (10 points)

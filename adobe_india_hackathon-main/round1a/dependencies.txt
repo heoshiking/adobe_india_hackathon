@@ -1,0 +1,35 @@
+# PDF Outline Extraction System - Dependencies
+# 
+# To install these packages, run:
+# pip install PyMuPDF pdfplumber pytesseract pillow pandas numpy
+#
+# Or install individually:
+
+# Core PDF processing libraries
+PyMuPDF>=1.26.0          # Primary PDF parsing and text extraction
+pdfplumber>=0.11.0       # Alternative PDF extraction with layout info
+pdfminer.six>=20250506   # Dependency for pdfplumber
+
+# OCR support for scanned PDFs
+pytesseract>=0.3.13      # Python wrapper for Tesseract OCR
+Pillow>=11.0.0           # Image processing for OCR
+
+# Data processing utilities
+pandas>=2.3.0            # Data manipulation (optional, for summary reports)
+numpy>=1.23.0            # Numerical operations
+
+# System dependencies (install via system package manager):
+# - tesseract-ocr          # OCR engine
+# - tesseract-ocr-eng      # English language pack
+# - libtesseract-dev       # Development headers
+
+# Installation commands:
+# 
+# For Ubuntu/Debian:
+# sudo apt-get install tesseract-ocr tesseract-ocr-eng libtesseract-dev
+#
+# For macOS:
+# brew install tesseract
+#
+# For Windows:
+# Download from: https://github.com/UB-Mannheim/tesseract/wiki

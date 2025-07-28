@@ -1,0 +1,30 @@
+{
+  "title": "Understanding AI Systems",
+  "outline": [
+    {
+      "level": "H2",
+      "text": "Understanding AI Systems",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "1. Introduction",
+      "page": 1
+    },
+    {
+      "level": "H2",
+      "text": "1.1 What is AI?",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "1.1.1 History of AI",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "2. Machine Learning Basics",
+      "page": 1
+    }
+  ]
+}
